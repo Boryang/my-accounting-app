@@ -5,26 +5,35 @@ import os
 import plotly.express as px
 
 # --------------------------------------------------
-# 1. 基本設定與精準美化隱藏設定
+# 1. 基本設定與強力隱藏樣式
 # --------------------------------------------------
-st.set_page_config(page_title="我的個人智慧記帳 App", layout="wide")
+# 💡 將 initial_sidebar_state 設定為 "expanded"，確保在手機上側邊欄選單預設會自動展開！
+st.set_page_config(
+    page_title="我的個人智慧記帳 App", 
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# 💡 精準隱藏：只隱藏右下角圖示與頂部選單，確保左上角側邊欄選單把手正常顯示
+# 💡 超強精準隱藏：徹底消除右下角紅色皇冠與官方小標誌
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
-            .stAppDeployButton {display:none !important;}
-            [data-testid="stStatusWidget"] {visibility: hidden;}
+            header {visibility: hidden;}
             
-            /* 隱藏右下角 Streamlit 懸浮小按鈕 */
-            [data-testid="stToolbar"] {visibility: hidden !important;}
-            div[class*="viewerBadge"] {display: none !important;}
+            /* 強制隱藏右下角所有官方徽章與工具列 */
+            .stAppDeployButton {display:none !important;}
+            [data-testid="stStatusWidget"] {display:none !important;}
+            [data-testid="stToolbar"] {display:none !important;}
+            div[class*="viewerBadge"] {display:none !important;}
+            div[class*="styles_viewerBadge"] {display:none !important;}
             #stDecoration {display:none !important;}
             
-            /* 確保左上角側邊欄展開按鈕依然保持顯示 */
-            [data-testid="stSidebarNav"] {visibility: visible !important;}
-            button[data-testid="baseButton-header"] {visibility: visible !important;}
+            /* 強制將側邊欄開啟/關閉按鈕顯示出來 */
+            [data-testid="stSidebarCollapseButton"] {
+                display: block !important;
+                visibility: visible !important;
+            }
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
@@ -348,3 +357,16 @@ with tab5:
             new_upload_df.to_csv(DB_FILE, index=False)
             st.success("🎉 已成功匯入並更新帳本！")
             st.rerun()
+
+    # --------------------------------------------------
+    # 🚨 一鍵清空/重置資料庫按鈕
+    # --------------------------------------------------
+    st.write("---")
+    st.write("🔴 **重置帳本資料：**")
+    if st.button("🗑️ 一鍵清空所有記帳紀錄", type="primary", key="btn_reset_all_data"):
+        empty_df = pd.DataFrame(columns=[
+            "日期", "類型", "金額", "項目名稱", "類別", "屬性", "固定重複", "週期"
+        ])
+        empty_df.to_csv(DB_FILE, index=False)
+        st.success("🎉 所有紀錄已順利清空！帳本已重新開始！")
+        st.rerun()
