@@ -14,38 +14,31 @@ st.set_page_config(
 )
 
 # 💡 超強精準隱藏：徹底消除右下角 2 個官方 Logo，並讓左上角選單按鈕固定不消失
+# --------------------------------------------------
+# 1. 徹底隱藏雲端底座圖示 & 強制固定頂部選單
+# --------------------------------------------------
 hide_streamlit_style = """
             <style>
+            /* 隱藏頂部預設標題列與頁尾 */
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
             
-            /* 1. 徹底隱藏右下角所有官方標誌、懸浮小按鈕與底板 */
-            .stAppDeployButton {display: none !important;}
-            [data-testid="stStatusWidget"] {display: none !important;}
-            [data-testid="stToolbar"] {display: none !important;}
-            div[class*="viewerBadge"] {display: none !important;}
-            div[class*="styles_viewerBadge"] {display: none !important;}
-            [data-testid="stActionButtonIcon"] {display: none !important;}
-            #stDecoration {display: none !important;}
-            
-            /* 2. 強制讓左上角側邊欄選單按鈕固定置頂，點擊後也不會消失 */
-            [data-testid="stSidebarCollapseButton"] {
-                display: block !important;
-                visibility: visible !important;
-                position: fixed !important;
-                top: 12px !important;
-                left: 12px !important;
-                z-index: 999999 !important;
-                background-color: rgba(255, 255, 255, 0.9) !important;
-                border-radius: 50% !important;
-                box-shadow: 0px 2px 5px rgba(0,0,0,0.2) !important;
+            /* 全面隱藏右下角所有官方標誌與懸浮圖示 */
+            [data-testid="stActionButtonIcon"],
+            [data-testid="stStatusWidget"],
+            [data-testid="stToolbar"],
+            .stAppDeployButton,
+            div[class*="viewerBadge"],
+            div[class*="styles_viewerBadge"],
+            #stDecoration {
+                display: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
             }
             </style>
             """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
-DB_FILE = "records.csv"
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)DB_FILE = "records.csv"
 
 # 若資料庫檔不存在，自動建立預設欄位
 if not os.path.exists(DB_FILE):
