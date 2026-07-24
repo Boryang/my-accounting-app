@@ -5,34 +5,41 @@ import os
 import plotly.express as px
 
 # --------------------------------------------------
-# 1. 基本設定與強力隱藏樣式
+# 1. 基本設定與超強隱藏樣式
 # --------------------------------------------------
-# 💡 將 initial_sidebar_state 設定為 "expanded"，確保在手機上側邊欄選單預設會自動展開！
 st.set_page_config(
     page_title="我的個人智慧記帳 App", 
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
 
-# 💡 超強精準隱藏：徹底消除右下角紅色皇冠與官方小標誌
+# 💡 超強精準隱藏：徹底消除右下角 2 個官方 Logo，並讓左上角選單按鈕固定不消失
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
             
-            /* 強制隱藏右下角所有官方徽章與工具列 */
-            .stAppDeployButton {display:none !important;}
-            [data-testid="stStatusWidget"] {display:none !important;}
-            [data-testid="stToolbar"] {display:none !important;}
-            div[class*="viewerBadge"] {display:none !important;}
-            div[class*="styles_viewerBadge"] {display:none !important;}
-            #stDecoration {display:none !important;}
+            /* 1. 徹底隱藏右下角所有官方標誌、懸浮小按鈕與底板 */
+            .stAppDeployButton {display: none !important;}
+            [data-testid="stStatusWidget"] {display: none !important;}
+            [data-testid="stToolbar"] {display: none !important;}
+            div[class*="viewerBadge"] {display: none !important;}
+            div[class*="styles_viewerBadge"] {display: none !important;}
+            [data-testid="stActionButtonIcon"] {display: none !important;}
+            #stDecoration {display: none !important;}
             
-            /* 強制將側邊欄開啟/關閉按鈕顯示出來 */
+            /* 2. 強制讓左上角側邊欄選單按鈕固定置頂，點擊後也不會消失 */
             [data-testid="stSidebarCollapseButton"] {
                 display: block !important;
                 visibility: visible !important;
+                position: fixed !important;
+                top: 12px !important;
+                left: 12px !important;
+                z-index: 999999 !important;
+                background-color: rgba(255, 255, 255, 0.9) !important;
+                border-radius: 50% !important;
+                box-shadow: 0px 2px 5px rgba(0,0,0,0.2) !important;
             }
             </style>
             """
