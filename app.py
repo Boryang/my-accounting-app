@@ -8,6 +8,19 @@ import plotly.express as px
 # 1. 基本設定與資料庫初始化
 # --------------------------------------------------
 st.set_page_config(page_title="我的個人智慧記帳 App", layout="wide")
+# --------------------------------------------------
+# 隱藏右上角選單、頁尾與右下角 Streamlit 皇冠圖示
+# --------------------------------------------------
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            .stAppDeployButton {display:none;}
+            [data-testid="stStatusWidget"] {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 DB_FILE = "records.csv"
 
