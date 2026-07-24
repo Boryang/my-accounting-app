@@ -5,40 +5,36 @@ import os
 import plotly.express as px
 
 # --------------------------------------------------
-# 1. 基本設定與超強隱藏樣式
+# 1. 基本設定與終極隱藏樣式
 # --------------------------------------------------
 st.set_page_config(
     page_title="我的個人智慧記帳 App", 
     layout="wide",
-    initial_sidebar_state="auto"
+    initial_sidebar_state="collapsed"
 )
 
-# 💡 超強精準隱藏：徹底消除右下角 2 個官方 Logo，並讓左上角選單按鈕固定不消失
-# --------------------------------------------------
-# 1. 徹底隱藏雲端底座圖示 & 強制固定頂部選單
-# --------------------------------------------------
+# 💡 終極隱形魔術布：全面將右下角所有官方徽章、懸浮圖示與頁頭頁尾隱藏
 hide_streamlit_style = """
             <style>
-            /* 隱藏頂部預設標題列與頁尾 */
+            /* 隱藏頂部標題列與頁尾 */
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
             
             /* 全面隱藏右下角所有官方標誌與懸浮圖示 */
-            [data-testid="stActionButtonIcon"],
-            [data-testid="stStatusWidget"],
-            [data-testid="stToolbar"],
-            .stAppDeployButton,
-            div[class*="viewerBadge"],
-            div[class*="styles_viewerBadge"],
-            #stDecoration {
-                display: none !important;
-                opacity: 0 !important;
-                visibility: hidden !important;
-            }
+            .stAppDeployButton {display: none !important;}
+            [data-testid="stStatusWidget"] {display: none !important;}
+            [data-testid="stToolbar"] {display: none !important;}
+            div[class*="viewerBadge"] {display: none !important;}
+            div[class*="styles_viewerBadge"] {display: none !important;}
+            [data-testid="stActionButtonIcon"] {display: none !important;}
+            #stDecoration {display: none !important;}
+            iframe[title*="streamlit"] {display: none !important;}
             </style>
             """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)DB_FILE = "records.csv"
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+DB_FILE = "records.csv"
 
 # 若資料庫檔不存在，自動建立預設欄位
 if not os.path.exists(DB_FILE):
@@ -61,19 +57,15 @@ if 'user_quick_buttons' not in st.session_state:
     ]
 
 # --------------------------------------------------
-# 👈 左側抽屜 (Sidebar)：帳本總控台
-# --------------------------------------------------
-with st.sidebar:
-    st.header("⚙️ 帳本總控台")
-    st.write("---")
-    budget = st.number_input("設定每月總預算 (元)", min_value=1000, value=10000, step=1000, key="set_budget_input")
-    warning_limit = st.number_input("設定預算警戒線 (元)", min_value=100, value=2000, step=500, key="set_warning_limit_input")
-    st.write("---")
-
-# --------------------------------------------------
-# 2. 主畫面標題與理財管家卡片
+# 2. 主畫面標題與【預算總控工具箱】
 # --------------------------------------------------
 st.title("💰 我的個人智慧記帳 App")
+
+# 💡 直接放置在主畫面的「預算總控工具箱」（再也不怕選單按鈕消失）
+with st.expander("⚙️ 點擊展開/收合：設定每月預算", expanded=False):
+    st.write("🔧 **預算管理：**")
+    budget = st.number_input("設定每月總預算 (元)", min_value=1000, value=10000, step=1000, key="set_budget_input")
+    warning_limit = st.number_input("設定預算警戒線 (元)", min_value=100, value=2000, step=500, key="set_warning_limit_input")
 
 # 💡 自動理財分析小幫手
 if not df.empty:
