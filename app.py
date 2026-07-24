@@ -5,50 +5,18 @@ import os
 import plotly.express as px
 
 # --------------------------------------------------
-# 1. 基本設定與終極遮罩樣式
+# 1. 基本設定與美化樣式 (最穩定版本)
 # --------------------------------------------------
 st.set_page_config(
     page_title="我的個人智慧記帳 App", 
-    layout="wide",
-    initial_sidebar_state="collapsed"
+    layout="wide"
 )
 
-# 💡 終極隱形遮罩：徹底蓋住右下角官方圖標與懸浮列
+# 隱藏頂部預設選單與頁尾，保持畫面乾淨
 hide_streamlit_style = """
             <style>
-            /* 隱藏頂部標題列與頁尾 */
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
-            header {visibility: hidden;}
-            
-            /* 1. 將右下角所有懸浮選單與官方圖標徹底隱藏 */
-            [data-testid="stActionButtonIcon"],
-            [data-testid="stStatusWidget"],
-            [data-testid="stToolbar"],
-            .stAppDeployButton,
-            div[class*="viewerBadge"],
-            div[class*="styles_viewerBadge"],
-            #stDecoration,
-            div[data-testid="stDecoration"] {
-                display: none !important;
-                visibility: hidden !important;
-                opacity: 0 !important;
-                height: 0px !important;
-                width: 0px !important;
-            }
-            
-            /* 2. 直接在右下角蓋上一塊白色隱形防護板，確保圖標絕對看不見 */
-            body::after {
-                content: "";
-                position: fixed;
-                bottom: 0;
-                right: 0;
-                width: 150px;
-                height: 80px;
-                background-color: #FFFFFF;
-                z-index: 9999999;
-                pointer-events: none;
-            }
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
