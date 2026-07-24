@@ -5,19 +5,26 @@ import os
 import plotly.express as px
 
 # --------------------------------------------------
-# 1. 基本設定與資料庫初始化
+# 1. 基本設定與精準美化隱藏設定
 # --------------------------------------------------
 st.set_page_config(page_title="我的個人智慧記帳 App", layout="wide")
-# --------------------------------------------------
-# 隱藏右上角選單、頁尾與右下角 Streamlit 皇冠圖示
-# --------------------------------------------------
+
+# 💡 精準隱藏：只隱藏右下角圖示與頂部選單，確保左上角側邊欄選單把手正常顯示
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
-            header {visibility: hidden;}
-            .stAppDeployButton {display:none;}
+            .stAppDeployButton {display:none !important;}
             [data-testid="stStatusWidget"] {visibility: hidden;}
+            
+            /* 隱藏右下角 Streamlit 懸浮小按鈕 */
+            [data-testid="stToolbar"] {visibility: hidden !important;}
+            div[class*="viewerBadge"] {display: none !important;}
+            #stDecoration {display:none !important;}
+            
+            /* 確保左上角側邊欄展開按鈕依然保持顯示 */
+            [data-testid="stSidebarNav"] {visibility: visible !important;}
+            button[data-testid="baseButton-header"] {visibility: visible !important;}
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
