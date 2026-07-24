@@ -5,7 +5,7 @@ import os
 import plotly.express as px
 
 # --------------------------------------------------
-# 1. 基本設定與終極隱藏樣式
+# 1. 基本設定與終極遮罩樣式
 # --------------------------------------------------
 st.set_page_config(
     page_title="我的個人智慧記帳 App", 
@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 💡 終極隱形魔術布：全面將右下角所有官方徽章、懸浮圖示與頁頭頁尾隱藏
+# 💡 終極隱形遮罩：徹底蓋住右下角官方圖標與懸浮列
 hide_streamlit_style = """
             <style>
             /* 隱藏頂部標題列與頁尾 */
@@ -21,15 +21,34 @@ hide_streamlit_style = """
             footer {visibility: hidden;}
             header {visibility: hidden;}
             
-            /* 全面隱藏右下角所有官方標誌與懸浮圖示 */
-            .stAppDeployButton {display: none !important;}
-            [data-testid="stStatusWidget"] {display: none !important;}
-            [data-testid="stToolbar"] {display: none !important;}
-            div[class*="viewerBadge"] {display: none !important;}
-            div[class*="styles_viewerBadge"] {display: none !important;}
-            [data-testid="stActionButtonIcon"] {display: none !important;}
-            #stDecoration {display: none !important;}
-            iframe[title*="streamlit"] {display: none !important;}
+            /* 1. 將右下角所有懸浮選單與官方圖標徹底隱藏 */
+            [data-testid="stActionButtonIcon"],
+            [data-testid="stStatusWidget"],
+            [data-testid="stToolbar"],
+            .stAppDeployButton,
+            div[class*="viewerBadge"],
+            div[class*="styles_viewerBadge"],
+            #stDecoration,
+            div[data-testid="stDecoration"] {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                height: 0px !important;
+                width: 0px !important;
+            }
+            
+            /* 2. 直接在右下角蓋上一塊白色隱形防護板，確保圖標絕對看不見 */
+            body::after {
+                content: "";
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                width: 150px;
+                height: 80px;
+                background-color: #FFFFFF;
+                z-index: 9999999;
+                pointer-events: none;
+            }
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
@@ -61,7 +80,7 @@ if 'user_quick_buttons' not in st.session_state:
 # --------------------------------------------------
 st.title("💰 我的個人智慧記帳 App")
 
-# 💡 直接放置在主畫面的「預算總控工具箱」（再也不怕選單按鈕消失）
+# 💡 直接放置在主畫面的「預算總控工具箱」
 with st.expander("⚙️ 點擊展開/收合：設定每月預算", expanded=False):
     st.write("🔧 **預算管理：**")
     budget = st.number_input("設定每月總預算 (元)", min_value=1000, value=10000, step=1000, key="set_budget_input")
