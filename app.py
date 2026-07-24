@@ -5,18 +5,35 @@ import os
 import plotly.express as px
 
 # --------------------------------------------------
-# 1. 基本設定與美化樣式 (最穩定版本)
+# 1. 基本設定與精準美化隱藏樣式
 # --------------------------------------------------
 st.set_page_config(
     page_title="我的個人智慧記帳 App", 
     layout="wide"
 )
 
-# 隱藏頂部預設選單與頁尾，保持畫面乾淨
+# 💡 精準隱藏：隱藏右上角 GitHub Logo，並在右下角蓋上夠大的白色隱形板徹底遮住皇冠
 hide_streamlit_style = """
             <style>
+            /* 1. 隱藏頂部所有選單、頁尾與右上角 GitHub / Fork 標誌 */
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
+            header {visibility: hidden;}
+            [data-testid="stHeader"] {display: none !important;}
+            [data-testid="stAppDeployButton"] {display: none !important;}
+            
+            /* 2. 在右下角貼一塊加高 (120px)、加寬 (220px) 的白色防護板，把紅色皇冠完全遮住 */
+            body::after {
+                content: "";
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                width: 220px;
+                height: 120px;
+                background-color: #FFFFFF;
+                z-index: 9999999;
+                pointer-events: none;
+            }
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
